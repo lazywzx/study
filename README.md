@@ -1,0 +1,5 @@
+- 👋 Hi, I’m @lazywzx
+- 👀 U can reach me: wangzixu98@icloud.com
+- 🌱 This is my personal blog: http://lazywzx.info
+- 💞️ I'm a student in HIT
+- 📫 Good luck to u...
