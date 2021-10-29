@@ -1,6 +1,10 @@
 import numpy as np
 import sympy as sp
 
+"""
+代码有问题，迭代不收敛
+使用Q5_inv_broyden.m替代
+"""
 
 def fx(x, y, z, d):
     """定义函数组Fx及其导函数"""
