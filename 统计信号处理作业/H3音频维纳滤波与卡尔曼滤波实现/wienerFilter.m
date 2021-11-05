@@ -4,7 +4,6 @@ clear;
 clc;
 %% 信号产生，对原始信号进行采样
 [x, Fs] = audioread('./melancholy.mp3');
-disp(Fs);
 x = x(2000001:2200000, 1)';   % 截取一段信号
 audiowrite('./cut.wav', x, Fs); % 保存截取的音频
 
@@ -23,6 +22,7 @@ function [y] = wiener_filter(x, dB, Fs)
     audiowrite('./cut_noise.wav', s, Fs);
     M = length(x);  % 信号长度
     t = 0:M-1;
+    
     % 期望信号
     d = [s(1),s(1:end-1),]; % d(n)=s(n-1)
     % 滤波器的阶数，向下取整
@@ -62,21 +62,67 @@ function [y] = wiener_filter(x, dB, Fs)
     title('原始信号波形');
     xlabel('观测点数');ylabel('信号幅度');
     axis([0 M-1 -dB dB]);
-
+    % 原始信号频谱
+    k = 100; % 缩放横轴，显示低频信息
+    xfft = fft(x);
+    f = Fs / M * (0: round(M / k) - 1);
     subplot(312);
+    plot(f, abs(xfft(1: round(M / k))));
+    % plot(f(70000: 80000), abs(xfft(70000: 80000)));
+    title('原始信号频谱');
+    xlabel('频率/Hz');ylabel('频域强度');
+    % axis([0 f-1 -dB dB]);
+    % 原始信号功率谱
+    xpower = 20 * log10(abs(xfft));
+    subplot(313);
+    plot(f, xpower(1: round(M / k)));
+    title('原始信号功率谱');
+    xlabel('频率/Hz');ylabel('功率谱强度');
+    
+    figure(2);
+    subplot(311);
     plot(t, s);
     title('加噪信号波形');
     xlabel('观测点数');ylabel('信号幅度');
     axis([0 M-1 -dB dB]);
-
+    % 加噪信号频谱
+    sfft = fft(s);
+    subplot(312);
+    plot(f, abs(sfft(1: round(M / k))));
+    % plot(f(70000: 80000), abs(sfft(70000: 80000)));
+    title('加噪信号频谱');
+    xlabel('频率/Hz');ylabel('频域强度');
+    % axis([0 f-1 -dB dB]);
+    % 加噪信号功率谱
+    spower = 20 * log10(abs(sfft));
     subplot(313);
+    plot(f, spower(1: round(M / k)));
+    title('加噪信号功率谱');
+    xlabel('频率/Hz');ylabel('功率谱强度');
+    
+    figure(3);
+    subplot(311);
     plot(t, y);
     title('维纳滤波后波形');
     xlabel('观测点数');ylabel('误差幅度');
     axis([0 M-1 -dB dB]);
+    % 滤波后信号频谱
+    yfft = fft(y);
+    subplot(312);
+    plot(f, abs(yfft(1: round(M / k))));
+    % plot(f(70000: 80000), abs(yfft(70000: 80000)));
+    title('维纳滤波后频谱');
+    xlabel('频率/Hz');ylabel('频域强度');
+    % axis([0 f-1 -dB dB]);
+    % 滤波信号功率谱
+    ypower = 20 * log10(abs(yfft));
+    subplot(313);
+    plot(f, ypower(1: round(M / k)));
+    title('滤波信号功率谱');
+    xlabel('频率/Hz');ylabel('功率谱强度');
 
     % 期望和滤波后的信号对比
-    figure(2);
+    figure(4);
     subplot(211);
     plot(t, d, 'r-', t, y, 'b-','LineWidth',1);
     legend('期望信号','滤波结果');
