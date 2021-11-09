@@ -164,4 +164,6 @@ function [y] = wiener_filter(x, dB, Fs)
     histogram(s, nbins, 'Normalization', 'probability');
     hold on
     histogram(y, nbins, 'Normalization', 'probability');
+    title('各信号直方图对比');
+    xlabel('幅度'); ylabel('数量');
 end
