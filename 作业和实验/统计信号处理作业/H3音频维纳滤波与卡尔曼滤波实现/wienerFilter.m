@@ -63,21 +63,29 @@ function [y] = wiener_filter(x, dB, Fs)
     xlabel('观测点数');ylabel('信号幅度');
     axis([0 M-1 -dB dB]);
     % 原始信号频谱
-    k = 100; % 缩放横轴，显示低频信息
+    k = 2; % 缩放横轴，显示低频信息
     xfft = fft(x);
     f = Fs / M * (0: round(M / k) - 1);
     subplot(312);
-    plot(f, abs(xfft(1: round(M / k))));
-    % plot(f(70000: 80000), abs(xfft(70000: 80000)));
+    % plot(f, abs(xfft(1: round(M / k))));
+    plot(f(60000: 80000), abs(xfft(60000: 80000)));
     title('原始信号频谱');
     xlabel('频率/Hz');ylabel('频域强度');
     % axis([0 f-1 -dB dB]);
     % 原始信号功率谱
     xpower = 20 * log10(abs(xfft));
     subplot(313);
-    plot(f, xpower(1: round(M / k)));
+    % plot(f, xpower(1: round(M / k)));
+    plot(f(60000: 80000), xpower(60000: 80000));
     title('原始信号功率谱');
     xlabel('频率/Hz');ylabel('功率谱强度');
+    % 原始信号直方图
+    nbins = 100;
+    figure(5);
+    histogram(x, nbins, 'Normalization', 'probability');
+    title('原始信号直方图');
+    xlabel('幅度'); ylabel('数量');
+    % axis([-1 1 0 1]);
     
     figure(2);
     subplot(311);
@@ -88,17 +96,24 @@ function [y] = wiener_filter(x, dB, Fs)
     % 加噪信号频谱
     sfft = fft(s);
     subplot(312);
-    plot(f, abs(sfft(1: round(M / k))));
-    % plot(f(70000: 80000), abs(sfft(70000: 80000)));
+    % plot(f, abs(sfft(1: round(M / k))));
+    plot(f(60000: 80000), abs(sfft(60000: 80000)));
     title('加噪信号频谱');
     xlabel('频率/Hz');ylabel('频域强度');
     % axis([0 f-1 -dB dB]);
     % 加噪信号功率谱
     spower = 20 * log10(abs(sfft));
     subplot(313);
-    plot(f, spower(1: round(M / k)));
+    % plot(f, spower(1: round(M / k)));
+    plot(f(60000: 80000), spower(60000: 80000));
     title('加噪信号功率谱');
     xlabel('频率/Hz');ylabel('功率谱强度');
+    % 加噪信号直方图
+    figure(6);
+    histogram(s, nbins, 'Normalization', 'probability');
+    title('加噪信号直方图');
+    xlabel('幅度'); ylabel('数量');
+    % axis([-1 1 0 1]);
     
     figure(3);
     subplot(311);
@@ -109,17 +124,24 @@ function [y] = wiener_filter(x, dB, Fs)
     % 滤波后信号频谱
     yfft = fft(y);
     subplot(312);
-    plot(f, abs(yfft(1: round(M / k))));
-    % plot(f(70000: 80000), abs(yfft(70000: 80000)));
+    % plot(f, abs(yfft(1: round(M / k))));
+    plot(f(60000: 80000), abs(yfft(60000: 80000)));
     title('维纳滤波后频谱');
     xlabel('频率/Hz');ylabel('频域强度');
     % axis([0 f-1 -dB dB]);
     % 滤波信号功率谱
     ypower = 20 * log10(abs(yfft));
     subplot(313);
-    plot(f, ypower(1: round(M / k)));
+    % plot(f, ypower(1: round(M / k)));
+    plot(f(60000: 80000), ypower(60000: 80000));
     title('滤波信号功率谱');
     xlabel('频率/Hz');ylabel('功率谱强度');
+    % 滤波信号直方图
+    figure(7);
+    histogram(y, nbins, 'Normalization', 'probability');
+    title('滤波信号直方图');
+    xlabel('幅度'); ylabel('数量');
+    % axis([-1 1 0 1]);
 
     % 期望和滤波后的信号对比
     figure(4);
@@ -135,4 +157,11 @@ function [y] = wiener_filter(x, dB, Fs)
     title('输出误差');
     xlabel('观测点数');ylabel('误差幅度');
     axis([0 M-1 -dB dB]);
+    % 三种直方图对比
+    figure(8);
+    histogram(x, nbins, 'Normalization', 'probability');
+    hold on
+    histogram(s, nbins, 'Normalization', 'probability');
+    hold on
+    histogram(y, nbins, 'Normalization', 'probability');
 end
