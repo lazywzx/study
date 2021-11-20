@@ -1,6 +1,10 @@
 import cv2
 import time
 import numpy as np
+from matplotlib import pyplot as plt
+
+# 解决plt显示中文问题
+plt.rcParams['font.sans-serif'] = ['SimHei']
 
 
 def rs_align(ref_path, reg_path, output_path, order, ratio_thresh):
@@ -170,6 +174,21 @@ def rs_align(ref_path, reg_path, output_path, order, ratio_thresh):
     merge_img[:, :, 1] = dst_img  # 配准图像为绿色
     cv2.imwrite(output_path + 'merge.png', merge_img)
 
+    # 配准前后对比
+    plt.figure('配准结果')
+    plt.subplot(221)
+    plt.imshow(ref_img, cmap='gray')
+    plt.title('参考图像')
+    plt.subplot(222)
+    plt.imshow(reg_img, cmap='gray')
+    plt.title('待配准图像')
+    plt.subplot(223)
+    plt.imshow(dst_img, cmap='gray')
+    plt.title('配准后图像')
+    plt.subplot(224)
+    plt.imshow(merge_img[:, :, [2, 1, 0]])
+    plt.title('伪彩色融合图像')
+
     """ ************************ 11. 计算匹配误差(由控制点引起的坐标误差) ************ """
     error_x = np.zeros(len_gm, dtype=float)
     error_y = np.zeros(len_gm, dtype=float)
@@ -197,6 +216,7 @@ def rs_align(ref_path, reg_path, output_path, order, ratio_thresh):
 
 # 调用配准程序并计时
 st_time = time.time()
-gcp_num, rms_x, rms_y = rs_align('./images/test1.tif', './images/test2.tif', './output/', 3, 0.5)
+gcp_num, rms_x, rms_y = rs_align('./images/test1.tif', './images/test2.tif', './output/', 2, 0.21)
 cost_time = time.time() - st_time
-print('配准完成, 匹配点个数:', gcp_num, '\n共耗时', time.time() - st_time, '秒。')
+print('配准完成, 匹配点个数:', gcp_num, '\nX方向均方根:', rms_x, 'Y方向均方根:', rms_y, '\n共耗时', time.time() - st_time, '秒。')
+plt.show()
