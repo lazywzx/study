@@ -1,5 +1,5 @@
 import cv2
-import numpy
+import numpy as np
 
 
 def equilibrium(SourceImage):
@@ -7,22 +7,22 @@ def equilibrium(SourceImage):
     # 统计直方图
     height = SourceImage.shape[0]
     width = SourceImage.shape[1]
-    histogram = [0] * 256
+    histogram = np.zeros((256, 1), dtype=float)
     for i in range(height):
         for j in range(width):
             histogram[SourceImage[i, j]] = histogram[SourceImage[i, j]] + 1
 
     # 均衡直方图
-    NormalizedHistogram = [i / (height * width) for i in histogram]  # 归一化直方图
-    CumulativeHistogram = [0] * 256  # 累计直方图
+    NormalizedHistogram = histogram / (height * width)  # 归一化直方图
+    CumulativeHistogram = np.zeros((256, 1), dtype=float)  # 累计直方图
     CumulativeHistogram[0] = NormalizedHistogram[0]
     for i in range(1, 256):
         CumulativeHistogram[i] = CumulativeHistogram[i - 1] + NormalizedHistogram[i]
 
-    EquilibriumHistogram = [int(255 * i) for i in CumulativeHistogram]
+    EquilibriumHistogram = (CumulativeHistogram * 255).astype(np.uint8)
 
     # 映射到新图像
-    EquilibriumImage = numpy.zeros((height, width), dtype=numpy.uint8)
+    EquilibriumImage = np.zeros((height, width), dtype=np.uint8)
     for i in range(height):
         for j in range(width):
             EquilibriumImage[i, j] = EquilibriumHistogram[SourceImage[i, j]]
