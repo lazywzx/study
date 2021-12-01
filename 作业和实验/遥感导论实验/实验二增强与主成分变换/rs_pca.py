@@ -64,11 +64,6 @@ for xi in range(3):
     rmse.append((sum(sum(sum((rec_img[xi] - img) ** 2))) / (bands * height * width)) ** 0.5)
 
 """==========================================6. 输出结果========================================"""
-# 各分量恢复数据误差
-msg = ['第一', '前两', '前三']
-for r in range(3):
-    print(msg[r] + '分量恢复数据RMSE: ', rmse[r])
-
 # 变换前后各分量相关性
 print('变换前协方差矩阵COVx: \n', np.around(cov_mat_x, 2))
 print('变换前相关矩阵Rx: \n', np.around(R_mat_x, 2))
@@ -76,6 +71,10 @@ print('特征值及其占比: \n', np.around(eigen_value, 2), '\n', eig_weight)
 print('特征向量: \n', np.around(fv_sort, 4))
 print('变换后协方差矩阵COVy: \n', np.around(cov_mat_y, 2))
 print('变换后相关矩阵Ry: \n', np.around(R_mat_y, 2))
+# 各分量恢复数据误差
+msg = ['第一', '前两', '前三']
+for r in range(3):
+    print(msg[r] + '分量恢复数据RMSE: ', rmse[r])
 
 """==========================================7. 结果可视化======================================="""
 # PCA平移缩放亮度以显示

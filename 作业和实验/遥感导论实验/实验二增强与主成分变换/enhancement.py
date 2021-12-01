@@ -100,7 +100,7 @@ def enhance(img_path):
     plt.subplot(224)
     tmp_img[:, :, 0] = enhanced_img[3]; tmp_img[:, :, 1] = enhanced_img[2]; tmp_img[:, :, 2] = enhanced_img[1]
     plt.imshow(tmp_img)
-    plt.title('增强后标准假彩色波段321合成')
+    plt.title('增强后标准假彩色波段432合成')
 
     plt.show()
 
