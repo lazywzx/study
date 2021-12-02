@@ -104,11 +104,26 @@
 
 均方根误差RMSE
 \begin{align}
-    RMSE_{x} = \sqrt{\frac{\sum\limits_{i=0}^{N-1}  (x_{i}^{'} - u_{i})^{2}}{N}} \\
-    RMSE_{y} = \sqrt{\frac{\sum\limits_{i=0}^{N-1}  (y_{i}^{'} - v_{i})^{2}}{N}}
+    RMSE_{x} = \sqrt{\frac{\sum\limits_{i=0}^{N-1} {(x_{i}^{'} - u_{i})}^{2}}{N}} \\
+    RMSE_{y} = \sqrt{\frac{\sum\limits_{i=0}^{N-1} {(y_{i}^{'} - v_{i})}^{2}}{N}}
 \end{align}
 
 \section{向量与矩阵}
+
+矩阵表达(斜省略号)
+\begin{equation}
+    {\sum}_{y}
+    = 
+    \begin{bmatrix}
+        \lambda_{1} & 0 & & \cdots & 0 \\
+        0 & \lambda_{2} & & &  \\
+         & & \ddots & & \vdots \\
+        \vdots & & & \ddots & \\
+        0 & &\cdots & &\lambda_{B} \\
+    \end{bmatrix}
+    ,
+    \lambda_{1} > \lambda_{2} > \cdots > \lambda_{B}
+\end{equation}
 
 矩阵运算
 \begin{equation}
