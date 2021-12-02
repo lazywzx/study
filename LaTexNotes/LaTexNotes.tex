@@ -1,0 +1,131 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{ctex}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\usepackage{subfigure}
+\usepackage{amssymb}
+\usepackage{CJK}
+\usepackage{cite}
+\usepackage{amsmath}%数学
+\usepackage{titlesec}%设置章节标题与正文间距为2行
+\usepackage{enumerate}%项目编号
+\usepackage[]{caption2}%去掉图片编号后的":"
+\usepackage{booktabs}%表格用
+\usepackage{titlesec}%修改标题格式宏包
+\usepackage{multirow}%跨行表格
+\usepackage{abstract}%摘要
+\usepackage{setspace}   %行间距的宏包
+\usepackage{makecell}%表格竖线连续
+\usepackage{float}%可以用于禁止浮动体浮动
+\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=black]{hyperref}%目录超链接
+\usepackage{listings}%可以插入代码
+\usepackage{xcolor}%语法高亮支持
+\usepackage[left=3.0cm, right=2.6cm, top=2.54cm, bottom=2.54cm]{geometry}%设置页面格式
+%代码格式
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\usepackage{fontspec}
+\setmonofont{Consolas}
+\lstset{ %
+	numbers=left, 
+	basicstyle=\tiny\ttfamily, 
+	numberstyle=\tiny, 
+	tabsize=4,
+	numbersep=5pt, 
+	keywordstyle= \color{blue!70}, %关键词为蓝色
+	commentstyle=\color{gray}, %注释为灰色
+	frame=shadowbox, % 框架阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside={\%*}{*)},
+	xleftmargin=2em, % 边界选项
+	xrightmargin=2em, % 边界选项
+	aboveskip=1em, % 边界选项
+	framexleftmargin=2em, % 边界选项
+	breaklines,%过长代码自动换行
+}
+\titlespacing{\section}{0pt}{0pt}{2em}
+\renewcommand{\figurename}{图}%将figure改为图
+\renewcommand{\captionlabeldelim}{}
+\renewcommand {\thefigure} {\thesection{}.\arabic{figure}}%图片索引该为按照章节
+\titleformat{\section}{\centering\zihao{3}\bfseries}{\arabic{section}.}{0.5em}{}%修改section标题格式
+\def\I{\vrule width1.2pt}
+%!\I 就可以代替| 来画表格了
+%可固定下划线长度
+\makeatletter
+\newcommand\dlmu[2][4cm]{\hskip1pt\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+%使\section中的内容左对齐
+\renewcommand{\section}{\@startsection{section}{1}{0mm}{-\baselineskip}{0.5\baselineskip}{\bf\leftline}}
+\makeatother 
+
+\begin{document}
+
+%封面部分
+\begin{titlepage}
+	\centering
+	\vspace{2\baselineskip}
+	{LaTex笔记}
+	\vspace{2cm}
+
+	\centering
+	{	
+		E-mail: \url{wangzixu98@icloud.com}
+		\vspace{0.5cm}
+
+		HomePage: \url{http://lazywzx.info}
+		\vspace{0.5cm}
+		
+		GitHub: \url{https://github.com/lazywzx}
+	}
+
+\end{titlepage}
+
+% %目录部分
+% \renewcommand{\contentsname}{\centerline{\zihao{-2}\textbf{目录}}}
+% \tableofcontents
+
+% \newpage
+% %正文部分
+% \setlength{\baselineskip}{23pt}
+
+\section{表达式与方程组}
+
+离散求和
+\begin{align}
+    H(x) = \sum_{i=0, j=0}^{N-1, M-1}(x_{i, j} = x), x = 0, 1, \cdots, 255
+\end{align}
+
+离散求和（方程组）
+\begin{align}
+    u &= \sum_{i=0}^{k}\sum_{j=0}^{i} a_{ij} \cdot x^{i}y^{i-j} \\
+    v &= \sum_{i=0}^{k}\sum_{j=0}^{i} b_{ij} \cdot x^{i}y^{i-j}
+\end{align}
+
+均方根误差RMSE
+\begin{align}
+    RMSE_{x} = \sqrt{\frac{\sum\limits_{i=0}^{N-1}  (x_{i}^{'} - u_{i})^{2}}{N}} \\
+    RMSE_{y} = \sqrt{\frac{\sum\limits_{i=0}^{N-1}  (y_{i}^{'} - v_{i})^{2}}{N}}
+\end{align}
+
+\section{向量与矩阵}
+
+矩阵运算
+\begin{equation}
+	\begin{bmatrix}
+		u \\
+		v
+	\end{bmatrix}
+	= 
+	\begin{bmatrix}
+		a_{0} & a_{1} & a_{2} \\
+		b_{0} & b_{1} & b_{2}
+	\end{bmatrix}
+	\cdot
+	\begin{bmatrix}
+		1 & x & y
+	\end{bmatrix}
+	^{T}
+\end{equation}
+
+\end{document}
