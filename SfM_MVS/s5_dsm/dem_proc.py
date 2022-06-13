@@ -1,12 +1,11 @@
 import os, shutil
-from ..s0_dataset import DSParameter, log
-from ..s5_dsm import dem_func, pdal
+from s0_dataset import DSParameter, log
+from s5_dsm import dem_func, pdal
 
 
 def dem_process(dem_root_path, model_input, dem_output, bounds_file_path, result_path):
     """
     DEM processing, pc_classify, create dem and crop them.
-
     :param dem_root_path:
     :param model_input:
     :param dem_output:

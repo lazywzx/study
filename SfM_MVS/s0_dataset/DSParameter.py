@@ -35,8 +35,9 @@ class DataSetParameter(object):
         self.vis_matche = False
         self.exp_ply = False
         self.exp_dsm = False
-        self.exp_ortho = True
-        self.plot_den = False
+        self.exp_ortho = False
+        self.plot_den = False    # 这个耗时相当长，就是画个密度分布曲线！
+        # 可以直接使用CC画，后续要把这个删掉！
 
 
         ##############################s3: filter################################
@@ -112,7 +113,7 @@ class DataSetParameter(object):
             self.pc_classify = True
 
         ##############################s6: mesh#####################################
-        self.mesh3d = True
+        self.mesh3d = False
         """
             Use a full 3D mesh to compute the orthophoto instead of a 2.5D mesh.
             This option is a bit faster and provides similar results in planar areas.

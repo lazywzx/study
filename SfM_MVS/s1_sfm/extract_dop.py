@@ -7,7 +7,6 @@ from six import string_types
 def get_xmp(file):
     """
     get xmp info.
-
     :param file:
     :return:
     """
@@ -38,7 +37,6 @@ def get_xmp(file):
 def get_xmp_tag(xmp_tags, tags):
     """
     get xmp tag info.
-
     :param xmp_tags:
     :param tags:
     :return:
@@ -64,7 +62,6 @@ def get_xmp_tag(xmp_tags, tags):
 def set_attr_from_xmp_tag(xmp_tags, tags):
     """
     set gps_xy_stddev and gps_z_stddev.
-
     :param xmp_tags:
     :param tags:
     :return:
@@ -89,7 +86,6 @@ def set_attr_from_xmp_tag(xmp_tags, tags):
 def parse_dop_values(path_file):
     """
     extract gps_xy and gps_z.
-
     :param path_file:
     :return:
     """

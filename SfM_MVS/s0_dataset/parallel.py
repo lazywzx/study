@@ -1,11 +1,10 @@
 import threading, time, queue
-from ..s0_dataset import log
+from s0_dataset import log
 
 
 def parallel_map(func, items, max_workers=1):
     """
     parallel process map
-
     :param func:
     :param items:
     :param max_workers:
@@ -21,9 +20,9 @@ def parallel_map(func, items, max_workers=1):
             self.q = q
 
         def run(self):
-            log.logINFO("Start thread: " + self.name)
+            # log.logINFO("Start thread: " + self.name)
             process_data(self.q)
-            log.logINFO("Exit thread: " + self.name)
+            # log.logINFO("Exit thread: " + self.name)
 
     def process_data(q):
         while not exitFlag:

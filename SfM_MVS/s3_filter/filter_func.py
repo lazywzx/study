@@ -1,7 +1,7 @@
 import shutil, os
-from ..s0_dataset import log
-from ..s0_dataset.runCMD import run
-from ..s0_dataset.parallel import parallel_map
+from s0_dataset import log
+from s0_dataset.runCMD import run
+from s0_dataset.parallel import parallel_map
 from .split_merge import split, fast_merge_ply, ply_info, related_file_path
 
 
@@ -98,7 +98,6 @@ def filterpc(pdalbin, input_point_cloud, output_point_cloud, standard_deviation=
              sample_radius=0, max_concurrency=1):
     """
     Filters a point cloud
-
     :param input_point_cloud:
     :param output_point_cloud:
     :param standard_deviation:

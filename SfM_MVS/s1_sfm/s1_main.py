@@ -1,5 +1,5 @@
 import os, time, shutil, sys, json
-from ..s0_dataset import log, DSTree
+from s0_dataset import log, DSTree
 
 
 def runSfM():
@@ -14,7 +14,7 @@ def runSfM():
             log.logERROR("Dir images/ is not existed!")
             sys.exit()
         else:
-            from ..s1_sfm import sfm_pl, exif_info
+            from s1_sfm import sfm_pl, exif_info
             shutil.move(tree.input_images, os.path.join(tree.sfmDIR, 'images'))
 
             log.logINFO("Start run Struct from Motion...")

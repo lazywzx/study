@@ -1,8 +1,8 @@
 import os
-from ..s0_dataset import DSTree, DSParameter, log
-from ..s0_dataset.runCMD import run
-from ..s1_sfm import exif_info
-from ..s8_orthophoto import ortho_funcs
+from s0_dataset import DSTree, DSParameter, log
+from s0_dataset.runCMD import run
+from s1_sfm import exif_info
+from s8_orthophoto import ortho_funcs
 
 tree = DSTree.tree
 args = DSParameter.args
@@ -11,7 +11,6 @@ args = DSParameter.args
 def ortho_pipeline(ortho_dir, textured_model, kwargs, geoinfo, orthophoto_vars, bounds_file_path):
     """
     Run orthophoto pipeline.
-
     :param ortho_dir:
     :param textured_model:
     :param kwargs:

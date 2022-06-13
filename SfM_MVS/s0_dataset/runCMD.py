@@ -1,11 +1,10 @@
 import subprocess
-from ..s0_dataset import log
+from s0_dataset import log
 
 
 def run(cmd, info=None, ret=False):
     """
     run command in shell, and out some info
-
     :param cmd:
     :param info:
     :param ret:

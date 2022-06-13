@@ -1,5 +1,5 @@
 import exifread
-from ..s0_dataset import log
+from s0_dataset import log
 
 
 def int_values(tag):
@@ -38,7 +38,6 @@ def dms_to_decimal(dms, sign):
 def parse_gps_values(path_file):
     """
     extract gps altitude, latitude, longitude info from image.
-
     :param path_file:
     :return: info_dict
     """

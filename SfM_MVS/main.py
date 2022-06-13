@@ -1,6 +1,9 @@
-import time, os, sys
-from src.s0_dataset import log, DSTree
-from src.stages import stages_control
+import os
+import sys
+import time
+
+from s0_dataset import log, DSTree
+from stages import stages_control
 
 st = time.time()
 tree = DSTree.tree
@@ -16,14 +19,14 @@ if not os.path.exists(tree.resultDIR):
 
 # control dict
 stageControl = {
-    "s1": True,
-    "s2": True,
-    "s3": True,
-    "s4": True,
-    "s5": True,
+    "s1": False,
+    "s2": False,
+    "s3": False,
+    "s4": False,
+    "s5": False,
     "s6": True,
     "s7": True,
-    "s8": True
+    "s8": False
 }
 
 log.logINFO("Start UAV-based imagery ortho and mosaic...")

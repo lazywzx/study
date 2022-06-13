@@ -2,8 +2,8 @@ import os, osr
 from psutil import virtual_memory
 from osgeo import gdal
 from osgeo.gdalconst import GA_Update
-from ..s0_dataset import log
-from ..s0_dataset.runCMD import run
+from s0_dataset import log
+from s0_dataset.runCMD import run
 
 
 def crop(crop_bin, gpkg_path, geotiff_path, gdal_options, warp_options=[]):

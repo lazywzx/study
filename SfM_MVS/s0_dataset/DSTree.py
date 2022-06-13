@@ -2,8 +2,8 @@ import os
 
 # path/to/your/project
 # place images_dir in ./project/images
-root_path = "./langley/"
-binpath = "./src/bin/"
+root_path = "./sheffield/"
+binpath = "./bin/"
 
 
 class DataSetTree(object):
@@ -27,7 +27,7 @@ class DataSetTree(object):
         # OpenSfM
         self.osfmDIR = os.path.join(self.bin, 'osfm/bin')
         self.opensfm = os.path.join(self.osfmDIR, 'opensfm')
-        self.plot_matches = os.path.join(self.osfmDIR, 'plot_matches')
+        self.plot_matches = os.path.join(self.osfmDIR, 'plot_matches.py')
         # Poisson Recon
         self.poisson_recon = os.path.join(self.bin, 'PoissonRecon')
         # odm bin
@@ -37,7 +37,7 @@ class DataSetTree(object):
         # dem2mesh
         self.dem2mesh = os.path.join(self.odm_bin, 'dem2mesh')
         # orthophoto
-        self.ortho_bin = os.path.join(self.odm_bin, 'odm_orthophoto')
+        # self.ortho_bin = os.path.join(self.odm_bin, 'odm_orthophoto')
         # Texturing Recon
         self.texrecon = os.path.join(self.bin, 'texrecon')
 

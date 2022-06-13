@@ -1,6 +1,7 @@
-import os, json, ogr
-from ..s0_dataset import log, DSTree
-from ..s0_dataset.runCMD import run
+import os, json
+from osgeo import ogr
+from s0_dataset import log, DSTree
+from s0_dataset.runCMD import run
 
 tree = DSTree.tree
 
@@ -8,7 +9,6 @@ tree = DSTree.tree
 def create_bounds_geojson(pointcloud_path, buffer_distance=0, decimation_step=40):
     """
     Compute a buffered polygon around the data extents (not just a bounding box) of the given point cloud.
-
     @return filename to GeoJSON containing the polygon
     """
     # Do decimation prior to extracting boundary information
@@ -82,7 +82,6 @@ def create_bounds_geojson(pointcloud_path, buffer_distance=0, decimation_step=40
 def create_bounds_gpkg(pointcloud_path, buffer_distance=0, decimation_step=40):
     """
     Compute a buffered polygon around the data extents (not just a bounding box) of the given point cloud.
-
     @return filename to Geopackage containing the polygon
     """
     bounds_geojson_path = create_bounds_geojson(pointcloud_path, buffer_distance, decimation_step)

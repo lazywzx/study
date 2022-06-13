@@ -1,7 +1,7 @@
 import yaml
-from ..s0_dataset import DSParameter, log
-from ..s0_dataset.runCMD import run
-from ..s1_sfm.config_yaml import osfmConfig
+from s0_dataset import DSParameter, log
+from s0_dataset.runCMD import run
+from s1_sfm.config_yaml import osfmConfig
 
 args = DSParameter.args
 
@@ -9,7 +9,6 @@ args = DSParameter.args
 def default_config(file, config):
     """
     write default config to config.yaml
-
     :param config:
     :return:
     """
@@ -24,7 +23,6 @@ def default_config(file, config):
 def modi_config(file, config_data, modi_data):
     """
     modify current config
-
     :param config_data:
     :param modi_data:
     :return:
@@ -39,7 +37,6 @@ def modi_config(file, config_data, modi_data):
 def osfm_pipeline(gpsinfo, file, bin, dataset_path):
     """
     run the sfm pipeline
-
     :param file:
     :param bin:
     :param dataset_path:

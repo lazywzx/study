@@ -1,5 +1,5 @@
 import shutil, os, sys, time
-from ..s0_dataset import log, DSTree, DSParameter
+from s0_dataset import log, DSTree, DSParameter
 
 
 def dense_visual():
@@ -18,8 +18,8 @@ def dense_visual():
     if not os.path.exists(tree.denseDIR):
         os.makedirs(tree.denseDIR)
 
-    from ..s2_density import genply_dsm, export_ortho
-    from ..s2_density.density_visualization import dense_recon, flight_track, draw_matches, feature_vis, plot_density
+    from s2_density import genply_dsm, export_ortho
+    from s2_density.density_visualization import dense_recon, flight_track, draw_matches, feature_vis, plot_density
     log.logINFO("Start run density process...")
     dense_recon(tree.opensfm, tree.sfmDIR)
     # move to result

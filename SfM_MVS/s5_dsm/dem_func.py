@@ -1,9 +1,10 @@
+from asyncio import FastChildWatcher
 import os, math, rasterio, numpy, tempfile, json
 from scipy import ndimage
 from psutil import virtual_memory
-from ..s0_dataset import log, DSTree
-from ..s0_dataset.runCMD import run
-from ..s0_dataset.parallel import parallel_map
+from s0_dataset import log, DSTree
+from s0_dataset.runCMD import run
+from s0_dataset.parallel import parallel_map
 from . import pdal
 from .ground_rectification.rectify import run_rectification
 
@@ -13,12 +14,11 @@ tree = DSTree.tree
 def median_smoothing(geotiff_path, output_path, smoothing_iterations=1):
     """
     Apply median smoothing
-
     :param geotiff_path:
     :param output_path:
     :param smoothing_iterations:
     """
-    log.logINFO('Starting smoothing...')
+    # log.logINFO('Starting smoothing...')
 
     with rasterio.open(geotiff_path) as img:
         nodata = img.nodatavals[0]
@@ -28,7 +28,7 @@ def median_smoothing(geotiff_path, output_path, smoothing_iterations=1):
         # Median filter (careful, changing the value 5 might require tweaking) the lines below.
         # There's another numpy function that takes care of these edge cases, but it's slower.
         for i in range(smoothing_iterations):
-            log.logINFO("Smoothing iteration %s" % str(i + 1))
+            # log.logINFO("Smoothing iteration %s" % str(i + 1))
             arr = ndimage.median_filter(arr, size=5, output=dtype)
 
         # Fill corner points with nearest value
@@ -50,7 +50,6 @@ def median_smoothing(geotiff_path, output_path, smoothing_iterations=1):
 def get_extent(input_point_cloud):
     """
     get the extent of input point cloud.
-
     :param input_point_cloud:
     :return: bounds
     """
@@ -58,6 +57,7 @@ def get_extent(input_point_cloud):
     os.close(fd)
 
     fallback = False
+    has_bbox = True
     if input_point_cloud.lower().endswith(".ply"):
         fallback = True
         run('{0} info {1} > {2}'.format(tree.pdal, input_point_cloud, json_file), "Run pdal info.")
@@ -76,19 +76,36 @@ def get_extent(input_point_cloud):
             summary = result.get('summary')
             bounds = summary.get('bounds')
         else:
-            stats = result.get('stats')
-            bbox = stats.get('bbox')
-            native = bbox.get('native')
-            bounds = native.get('bbox')
+            try:
+                stats = result.get('stats')
+                bbox = stats.get('bbox')
+                native = bbox.get('native')
+                bounds = native.get('bbox')
+            except:
+                # 有的点云没有输出bbox，手动创建
+                # 不对，没有输出是因为数据有误，非常离谱
+                bounds = {}
+                has_bbox = False
+                """
+                bounds = {}
+                stats = result.get('stats')
+                statistic = result.get('statistic')
+                bounds["maxx"] = statistic[0].get('maximum')
+                bounds["minx"] = statistic[0].get('maximum')
+                bounds["maxy"] = statistic[1].get('maximum')
+                bounds["miny"] = statistic[1].get('maximum')
+                bounds["maxz"] = statistic[2].get('maximum')
+                bounds["minz"] = statistic[2].get('maximum')
+                """
+                
 
-    return bounds
+    return bounds, has_bbox
 
 
 def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56'], outdir='', resolution=0.1,
                max_workers=1, max_tile_size=4096, decimation=None):
     """
     Create DEM.
-
     :param input_point_cloud:
     :param dem_type:
     :param output_type:
@@ -99,7 +116,10 @@ def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56']
     :param max_tile_size:
     :param decimation:
     """
-    extent = get_extent(input_point_cloud)
+    extent, hb = get_extent(input_point_cloud)
+    if not hb:
+        return
+    
     log.logINFO("Point cloud bounds are [minx: %s, maxx: %s] [miny: %s, maxy: %s]" % (
         extent['minx'], extent['maxx'], extent['miny'], extent['maxy']))
     ext_width = extent['maxx'] - extent['minx']
@@ -126,8 +146,8 @@ def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56']
 
     num_splits = int(max(1, math.ceil(math.log(math.ceil(final_dem_pixels / float(max_tile_size * max_tile_size))) / math.log(2))))
     num_tiles = num_splits * num_splits
-    log.logINFO("DEM resolution is %s, max tile size is %s, will split DEM generation into %s tiles" % (
-        (h, w), max_tile_size, num_tiles))
+    # log.logINFO("DEM resolution is %s, max tile size is %s, will split DEM generation into %s tiles" % (
+    #     (h, w), max_tile_size, num_tiles))
 
     tile_bounds_width = ext_width / float(num_splits)
     tile_bounds_height = ext_height / float(num_splits)
@@ -168,7 +188,7 @@ def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56']
         pdal.run_pipeline(d)
 
     # parallel processing
-    log.logINFO("This step will take a while, please wait minutes...")
+    # log.logINFO("This step will take a while, please wait minutes...")
     parallel_map(process_tile, tiles, max_workers)
 
     output_file = "%s.tif" % dem_type
@@ -177,7 +197,8 @@ def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56']
     # Create virtual raster
     tiles_vrt_path = os.path.abspath(os.path.join(outdir, "tiles.vrt"))
     cmd = '%s %s %s > /dev/null 2>&1' % (tree.gdalbuildvrt, tiles_vrt_path, ' '.join(map(lambda t: t['filename'], tiles)))
-    run(cmd, "Create virtual raster.")
+    cmd_info = "Create virtual raster."
+    run(cmd)
 
     merged_vrt_path = os.path.abspath(os.path.join(outdir, "merged.vrt"))
     geotiff_tmp_path = os.path.abspath(os.path.join(outdir, 'tiles.tmp.tif'))
@@ -195,25 +216,30 @@ def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56']
 
     cmd = '{translate} -co NUM_THREADS={threads} -co BIGTIFF=IF_SAFER --config GDAL_CACHEMAX {max_memory}% ' \
           '{tiles_vrt} {geotiff_tmp} > /dev/null 2>&1'.format(**kwargs)
-    run(cmd, "Convert to GeoTIFF.")
+    cmd_info = "Convert to GeoTIFF."
+    run(cmd)
 
     # Scale to 10% size
     cmd = '{translate} -co NUM_THREADS={threads} -co BIGTIFF=IF_SAFER --config GDAL_CACHEMAX {max_memory}% ' \
           '-outsize 10% 0 {geotiff_tmp} {geotiff_small} > /dev/null 2>&1'.format(**kwargs)
-    run(cmd, "Scale to 10% size.")
+    cmd_info = "Scale to 10% size."
+    run(cmd)
 
     # Fill scaled
     cmd = '{fillnodata} -co NUM_THREADS={threads} -co BIGTIFF=IF_SAFER --config GDAL_CACHEMAX {max_memory}% ' \
           '-b 1 -of GTiff {geotiff_small} {geotiff_small_filled} > /dev/null 2>&1'.format(**kwargs)
-    run(cmd, "Fill scaled.")
+    cmd_info = "Fill scaled."
+    run(cmd)
 
     cmd = '%s -resolution highest -r bilinear %s %s %s > /dev/null 2>&1' % (
         tree.gdalbuildvrt, merged_vrt_path, geotiff_small_filled_path, geotiff_tmp_path)
-    run(cmd, "Merge filled scaled DEM with unfilled DEM using bilinear interpolation.")
+    cmd_info = "Merge filled scaled DEM with unfilled DEM using bilinear interpolation."
+    run(cmd)
 
     cmd = '{translate} -co NUM_THREADS={threads} -co TILED=YES -co BIGTIFF=IF_SAFER -co COMPRESS=DEFLATE ' \
           '--config GDAL_CACHEMAX {max_memory}% {merged_vrt} {geotiff} > /dev/null 2>&1'.format(**kwargs)
-    run(cmd, "Run translate.")
+    cmd_info = "Run translate."
+    run(cmd)
 
     median_smoothing(geotiff_path, output_path)
     # clean disk
@@ -229,7 +255,6 @@ def create_dem(input_point_cloud, dem_type, output_type='max', radiuses=['0.56']
 def crop(gpkg_path, geotiff_path, gdal_options, warp_options=[]):
     """
     Cropping the dem model.
-
     :param gpkg_path:
     :param geotiff_path:
     :param gdal_options:

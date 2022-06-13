@@ -1,13 +1,12 @@
 import os
 import numpy as np
-from ..s0_dataset import log, DSParameter
-from ..s5_dsm.dem_func import create_dem
+from s0_dataset import log, DSParameter
+from s5_dsm.dem_func import create_dem
 
 
 def create_output(vertices, colors, filename):
     """
     Function to create point cloud file.
-
     :param vertices:
     :param colors:
     :param filename:
@@ -27,7 +26,6 @@ def create_output(vertices, colors, filename):
 def config_data(infile, output_file):
     """
     config some data.
-
     :param infile:
     :param output_file:
     """
@@ -41,7 +39,6 @@ def config_data(infile, output_file):
 def gen_ply(indir, outdir):
     """
     gen point cloud from depthmap.
-
     :param indir:
     :param outdir:
     """
@@ -65,7 +62,6 @@ def gen_ply(indir, outdir):
 def gen_dsm(indir, outdir):
     """
     gen dsm from point cloud.
-
     :param indir:
     :param outdir:
     """

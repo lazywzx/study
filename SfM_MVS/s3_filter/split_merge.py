@@ -1,12 +1,11 @@
 import os
-from ..s0_dataset import log
-from ..s0_dataset.runCMD import run
+from s0_dataset import log
+from s0_dataset.runCMD import run
 
 
 def related_file_path(input_file_path, prefix="", postfix="", replace_base=None):
     """
     :return related path
-
     :param input_file_path:
     :param prefix:
     :param postfix:
@@ -24,7 +23,6 @@ def related_file_path(input_file_path, prefix="", postfix="", replace_base=None)
 def ply_info(input_ply):
     """
     Read PLY header, check if point cloud has normals
-
     :param input_ply:
     :return:
     """
@@ -54,7 +52,6 @@ def ply_info(input_ply):
 def split(pdalbin, input_point_cloud, outdir, filename_template, capacity, dims=None):
     """
     split a large pointcloud into small pcs
-
     :param input_point_cloud:
     :param outdir:
     :param filename_template:
@@ -79,7 +76,6 @@ def split(pdalbin, input_point_cloud, outdir, filename_template, capacity, dims=
 def fast_merge_ply(input_point_cloud_files, output_file):
     """
     merge small pcs into entire one, implement for fast
-
     :param input_point_cloud_files:
     :param output_file:
     :return:

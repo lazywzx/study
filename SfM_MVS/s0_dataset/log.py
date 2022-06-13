@@ -1,6 +1,6 @@
 import logging
 import colorlog
-from ..s0_dataset import DSTree
+from s0_dataset import DSTree
 
 tree = DSTree.tree
 

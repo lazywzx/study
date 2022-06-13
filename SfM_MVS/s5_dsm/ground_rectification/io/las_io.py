@@ -6,7 +6,7 @@ from ..point_cloud import PointCloud
 def read_cloud(point_cloud_path):
     # Open point cloud and read its properties
     las_file = File(point_cloud_path, mode='r')
-    header = (las_file.header.copy(), las_file.header.scale, las_file.header.offset,las_file.header.evlrs, las_file.header.vlrs)
+    header = (las_file.header.copy(), las_file.header.scale, las_file.header.offset, las_file.header.evlrs, las_file.header.vlrs)
     [x_scale, y_scale, z_scale] = las_file.header.scale
     [x_offset, y_offset, z_offset] = las_file.header.offset
 

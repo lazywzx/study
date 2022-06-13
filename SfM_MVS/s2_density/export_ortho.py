@@ -2,13 +2,12 @@ import itertools
 import cv2, os
 import numpy as np
 from plyfile import PlyData
-from ..s0_dataset import log
+from s0_dataset import log
 
 
 def separate_ortho(filename, output):
     """
     gen orthophotos from point cloud.
-
     :param filename:
     :param output:
     """
@@ -61,7 +60,6 @@ def separate_ortho(filename, output):
 def ortho_ply(indir, outdir):
     """
     export orthos from plys.
-
     :param indir:
     :param outdir:
     """

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 ################################################################################
 #   lidar2dems - utilties for creating DEMs from LiDAR data
 #
@@ -33,8 +33,8 @@
 import os, tempfile
 import json as jsonlib
 from pipes import quote
-from ..s0_dataset import log, DSTree
-from ..s0_dataset.runCMD import run
+from s0_dataset import log, DSTree
+from s0_dataset.runCMD import run
 
 tree = DSTree.tree
 pdalbin = tree.pdal

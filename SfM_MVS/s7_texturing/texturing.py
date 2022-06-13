@@ -1,6 +1,6 @@
 import os
-from ..s0_dataset import DSParameter, DSTree
-from ..s0_dataset.runCMD import run
+from s0_dataset import DSParameter, DSTree
+from s0_dataset.runCMD import run
 
 args = DSParameter.args
 tree = DSTree.tree

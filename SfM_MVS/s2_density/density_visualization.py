@@ -4,16 +4,15 @@ from plyfile import PlyData
 import itertools
 from matplotlib import pyplot as plt
 import matplotlib
-from ..s0_dataset import log
-from ..s0_dataset.runCMD import run
+from s0_dataset import log
+from s0_dataset.runCMD import run
 
 
 def dense_recon(bin, ds_path):
     """
     density point cloud
-
     :param bin:
-    :param ds_path:
+    :param ds_path: path to dataset
     :param debug:
     """
     log.logINFO("Density point cloud... This will take a while, please wait for minutes.")
@@ -40,7 +39,6 @@ class Photo(object):
 def flight_track(exif_path, output_path, expand=500000, bound=1.3):
     """
     Draw the flight track from exif info.
-
     :param exif_path:
     :param output_path:
     :param expand:
@@ -108,7 +106,6 @@ def flight_track(exif_path, output_path, expand=500000, bound=1.3):
 def draw_features(img, x, y, scale, orien, destype='circle'):
     """
     draw features on image
-
     :param img:
     :param x:
     :param y:
@@ -137,7 +134,6 @@ def draw_features(img, x, y, scale, orien, destype='circle'):
 def extract_imgname(npz_name):
     """
     extract image name from npz file
-
     :param npz_name:
     :return:
     """
@@ -149,7 +145,6 @@ def extract_imgname(npz_name):
 def feature_vis(feature_path, img_path, output_path):
     """
     visualize features on images
-
     :param feature_path:
     :param img_path:
     :param output_path:
@@ -185,11 +180,11 @@ def feature_vis(feature_path, img_path, output_path):
 def draw_matches(bin, ds_path):
     """
     draw matches between two images
-
     :param bin:
     :param ds_path:
     """
-    cmd = " ".join([bin, '--save_figs', ds_path, ' > /dev/null 2>&1'])
+    # cmd = " ".join([bin, '--save_figs', ds_path, ' > /dev/null 2>&1'])
+    cmd = " ".join([bin, '--save_figs', ds_path])
     run(cmd, "Drawing matches...It will take a while.")
 
 
@@ -199,7 +194,6 @@ def draw_matches(bin, ds_path):
 def stat(mat, output):
     """
     plot density dist
-
     :param mat:
     """
     xscale = int(max(mat[:, 0]))
@@ -233,7 +227,6 @@ def stat(mat, output):
 def plot_density(filename, output):
     """
     stat density
-
     :param filename:
     """
     plydata = PlyData.read(filename)

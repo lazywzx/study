@@ -1,7 +1,7 @@
 import os
-from ..s0_dataset import DSTree, log
-from ..s0_dataset.runCMD import run
-from ..s5_dsm.dem_func import create_dem
+from s0_dataset import DSTree, log
+from s0_dataset.runCMD import run
+from s5_dsm.dem_func import create_dem
 
 tree = DSTree.tree
 
@@ -9,7 +9,6 @@ tree = DSTree.tree
 def clean_mesh(outMeshDirty, outMesh, maxVertexCount):
     """
     Cleanup and reduce vertex count.
-
     :param outMeshDirty:
     :param outMesh:
     :param maxVertexCount:
@@ -22,7 +21,6 @@ def clean_mesh(outMeshDirty, outMesh, maxVertexCount):
 def create_3dmesh(inPointCloud, outMesh, depth=11, samples=1.0, maxVertexCount=200000, pointWeight=4.0, threads=1):
     """
     create 3d mesh from point cloud.
-
     :param inPointCloud:
     :param outMesh:
     :param depth:
@@ -48,7 +46,6 @@ def create_3dmesh(inPointCloud, outMesh, depth=11, samples=1.0, maxVertexCount=2
 def create_25dmesh(inDSM, outMesh, maxVertexCount=200000, available_cores=None):
     """
     create 2.5d mesh from dsm.
-
     :param inDSM:
     :param outMesh:
     :param maxVertexCount:
@@ -81,7 +78,6 @@ def create_25dmesh(inDSM, outMesh, maxVertexCount=200000, available_cores=None):
 def meshing_func(mesh3d, mesh25d, octree_depth, mesh_size, cores):
     """
     create meshes.
-
     :param mesh3d:
     :param mesh25d:
     :param octree_depth:
