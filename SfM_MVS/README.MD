@@ -3,13 +3,13 @@
 基于SfM(运动恢复结构)的三维重建基本流程可用下图表示：
 
 <div align=center>
-<img src="https://lazywzx.info/wp-content/uploads/2022/06/mosaic.jpg" />
+<img src="https://lazywzx.info/wp-content/uploads/2022/06/mosaic-1024x325.jpg" />
 </div>
 
 其核心原理是是通过多张高度重叠、视角变化的图片恢复相机位置姿态和空间点坐标，如下图
 
 <div align=center>
-<img src="https://lazywzx.info/wp-content/uploads/2022/06/sfm_colmap.jpg" />
+<img src="https://lazywzx.info/wp-content/uploads/2022/06/sfm_colmap-1024x321.jpg" />
 </div>
 
 下载框架代码到本地，地址：[SfM_MVS](https://github.com/lazywzx/study/tree/master/SfM_MVS)，可使用浏览器插件如GitZip下载。
